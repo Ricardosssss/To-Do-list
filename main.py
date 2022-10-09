@@ -1,77 +1,74 @@
-from os import system
 from time import sleep
-from termcolor import cprint
+from os import system
 
-tudo = []
+class Tarefa():
+    tudo = []
 
-def task(do):
-    tudo.append(do)
+    def criar(tarefa):
+        if(tarefa != ""):
+            Tarefa.tudo.append(tarefa)
 
-system("clear")
+    def remover(tarefa):
+        Tarefa.tudo.pop()
+
+    def show():
+        if(len(Tarefa.tudo) == 0):
+            print("Nenhuma Tarefa")
+            sleep(2)
+            return(False)
+        else:
+            for a in range(len(Tarefa.tudo)):
+                print(f"{a}: {Tarefa.tudo[a]}")
 
 while True:
-    cprint('''
- ████████╗ ██████╗     ██████╗  ██████╗     ██╗     ██╗███████╗████████╗
- ╚══██╔══╝██╔═══██╗    ██╔══██╗██╔═══██╗    ██║     ██║██╔════╝╚══██╔══╝
-    ██║   ██║   ██║    ██║  ██║██║   ██║    ██║     ██║███████╗   ██║   
-    ██║   ██║   ██║    ██║  ██║██║   ██║    ██║     ██║╚════██║   ██║   
-    ██║   ╚██████╔╝    ██████╔╝╚██████╔╝    ███████╗██║███████║   ██║   
-    ╚═╝    ╚═════╝     ╚═════╝  ╚═════╝     ╚══════╝╚═╝╚══════╝   ╚═╝   
-    ''', "cyan")
+    system("cls")
 
-    cprint('''
- [ 1 ] Novo afazer
- [ 2 ] Ver os afazeres
- [ 3 ] Sair
-''', "yellow")
+    print('''
+Bem Vindo!
 
-    opcmain = input(" Opção: ")
+[ 1 ] Nova tarefa
+[ 2 ] Ver tarefas
+[ 3 ] Sair
+    ''')
+    
+    mopc = input("Opção: ")
 
-    if opcmain != "1" and opcmain != "2" and opcmain != "3":
-        system("clear")
+    if(mopc == "1"):
+        Tarefa.criar(str(input("Afazer: ")))
 
-    elif opcmain == "1":
-        task(input(" Afazer: "))
-        system("clear")
+    if(mopc == "2"):
+        if(Tarefa.show() == False):
+            continue
 
-    elif opcmain == "2":
-        for a in range(len(tudo)):
-            cprint(f" {a}: {tudo[a]}", "green")
+        sopc = input("Remover Tarefa? S/N: ").lower()
 
-        if len(tudo) == 0:
-            cprint(" Nenhum afazer", "red")
-            sleep(1)
-            system("clear")
-        else:
+        if(sopc == "n" or sopc == ""):
+            pass
 
-            opcrm = str(input(" Remover um afazer? S/N: ")).lower()
+        if(sopc == "s"):
+            while True:
+                try:
+                    topc = int(input("Tarefa a remover: "))
 
-            if opcrm != "s" and opcrm != "n":
-                system("clear")
-
-            elif opcrm == "s":
-                while True:
-                    try:
-                        afazernum = int(input(" Qual afazer deseja remover: "))
-
-                        if afazernum << 0 and afazernum >= len(tudo):
-                            cprint(f" Não existe o afazer {afazernum}, tente novamente!", "yellow")
-                            
-                        else:
-                            tudo.pop(afazernum)
-                            system("clear")
-                            break
-                    except:
-                        cprint(" Tente novamente", "red")
+                    if(topc << 0 and topc >= len(Tarefa.tudo)):
+                        print("Incorreto")
                         sleep(0.5)
-                        system("clear")
                         break
 
-            elif opcrm == "n":
-                system("clear")
+                    else:
+                        Tarefa.remover(topc)
+                        break
 
-    if opcmain == "3":
-        cprint(" Até a proxima", "cyan")
-        sleep(0.5)
-        system("clear")
+                except:
+                    print("Incorreto")
+                    sleep(0.5)
+                    break
+
+            system("cls")
+
+    if(mopc == "3"):
+        system("cls")
         break
+
+    if(mopc <= "0" or mopc >= "3" or mopc == ""):
+        pass
